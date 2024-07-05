@@ -39,7 +39,7 @@ def train(model,opt,train_dataloader,train_dataset,test_dataloader,test_dataset,
 if __name__ == '__main__':
     opt = TrainOptions().get_opts()
     opt.result_path=create_paths(opt.result_path)
-    logger=Logger(f"{opt.result_path}/log/log.txt").get_logger()
+    logger=Logger(f"{opt.result_path}/log/train_log.txt").get_logger()
     model=Unet(in_channels=opt.in_channels,n_classes=opt.n_classes)
     model.cuda()
     model.train()

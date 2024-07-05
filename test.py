@@ -10,6 +10,7 @@ import torch
 from utils.metric import calc_dice
 import os
 from pathlib import Path
+from utils.tool import *
 @torch.no_grad()
 def test(model,opt, test_loader,test_dataset):
     dice_list=[]
@@ -31,8 +32,11 @@ def test(model,opt, test_loader,test_dataset):
 
 if __name__ == '__main__':
     opt=TestOptions().get_opts()
+    opt.result_path = os.path.join(os.path.dirname(os.path.dirname(opt.trained_checkpoint)), "test",os.path.basename(opt.trained_checkpoint).split(".")[0])
+    opt.result_path = create_run_name(opt.result_path)
     model=Unet()
     model.load_state_dict(torch.load(opt.trained_checkpoint))
+
     model.cuda()
     model.eval()
     test_dataset = CommonDataset(opt.test_root_path, opt.subdir, opt.image_size)

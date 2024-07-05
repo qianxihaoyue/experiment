@@ -10,7 +10,12 @@ import cv2
 import datetime
 from torchvision import transforms
 from tqdm import tqdm
-def predict(opt, model):
+from utils.tool import  *
+from utils.visualizer import Visualizer
+from utils.logger import Logger
+
+
+def predict(opt, model,visualizer,logger):
     sample_list=os.listdir(opt.image_folder)
     for sample in tqdm(sample_list):
         img=cv2.imread(os.path.join(opt.image_folder,sample))
@@ -47,6 +52,11 @@ if __name__=='__main__':
     model.cuda()
     model.eval()
 
-    opt.result_path =os.path.join(os.path.dirname(os.path.dirname(opt.trained_checkpoint)), "predict", os.path.basename(opt.trained_checkpoint).split(".")[0],datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S"))
+    opt.result_path =os.path.join(os.path.dirname(os.path.dirname(opt.trained_checkpoint)), "predict", os.path.basename(opt.trained_checkpoint).split(".")[0])
+    opt.result_path=create_run_name(opt.result_path)
+    logger=Logger(os.path.join(opt.result_path, "predict_log.txt")).get_logger()
+    show_args(opt,logger)
+    opt.result_path=os.path.join(opt.result_path,"save")
     Path(opt.result_path).mkdir(exist_ok=True, parents=True)
-    predict(opt, model)
+    visualizer=Visualizer()
+    predict(opt, model,visualizer,logger)
