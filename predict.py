@@ -47,16 +47,17 @@ def predict(opt, model,visualizer,logger):
 
 if __name__=='__main__':
     opt=PredictOptions().get_opts()
+    opt.result_path = os.path.join(os.path.dirname(os.path.dirname(opt.trained_checkpoint)), "predict",os.path.basename(opt.trained_checkpoint).split(".")[0])
+    opt.result_path = create_run_name(opt.result_path)
+    logger = Logger(os.path.join(opt.result_path, "predict_log.txt")).get_logger()
+    show_args(opt, logger)
+    opt.result_path = os.path.join(opt.result_path, "save")   #注意这行代码的先后顺序
+    Path(opt.result_path).mkdir(exist_ok=True, parents=True)
+
     model=Unet()
     model.load_state_dict(torch.load(opt.trained_checkpoint))
     model.cuda()
     model.eval()
 
-    opt.result_path =os.path.join(os.path.dirname(os.path.dirname(opt.trained_checkpoint)), "predict", os.path.basename(opt.trained_checkpoint).split(".")[0])
-    opt.result_path=create_run_name(opt.result_path)
-    logger=Logger(os.path.join(opt.result_path, "predict_log.txt")).get_logger()
-    show_args(opt,logger)
-    opt.result_path=os.path.join(opt.result_path,"save")
-    Path(opt.result_path).mkdir(exist_ok=True, parents=True)
     visualizer=Visualizer()
     predict(opt, model,visualizer,logger)

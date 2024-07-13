@@ -9,7 +9,7 @@ import sys
 from utils.tool import *
 from models.myunet.unet import Unet
 from options.train_options import TrainOptions
-from prepare.commonDataset import  CommonDataset
+from utils.commonDataset import  CommonDataset
 from torch.nn import BCEWithLogitsLoss
 from test import test
 from utils.logger import Logger
@@ -40,13 +40,16 @@ if __name__ == '__main__':
     opt = TrainOptions().get_opts()
     opt.result_path=create_paths(opt.result_path)
     logger=Logger(f"{opt.result_path}/log/train_log.txt").get_logger()
+
     model=Unet(in_channels=opt.in_channels,n_classes=opt.n_classes)
     model.cuda()
     model.train()
+
     train_dataset=CommonDataset(opt.root_path,opt.subdir,opt.image_size)
     train_dataloader=DataLoader(train_dataset,batch_size=opt.batch_size,shuffle=True)
     test_dataset=CommonDataset(opt.test_root_path,opt.subdir,opt.image_size)
     test_dataloader = DataLoader(test_dataset, batch_size=opt.batch_size, shuffle=False)
+
     criterion=BCEWithLogitsLoss()
     optimizer=torch.optim.AdamW(model.parameters(),lr=opt.lr,weight_decay=opt.weight_decay)
 
