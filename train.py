@@ -4,12 +4,14 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 import numpy as np
 import random
-
+import warnings
+warnings.filterwarnings("ignore")
 import argparse
 import os
 import sys
 from utils.tool import *
 from models.unet.unet import UNet
+from models.unet2.unet2 import UNet2
 from options.train_options import TrainOptions
 from utils.commonDataset import  CommonDataset
 from torch.nn import BCEWithLogitsLoss
@@ -25,7 +27,7 @@ def train(model,opt,train_dataloader,train_dataset,test_dataloader,test_dataset,
             images=images.to(opt.device)
             labels=labels.to(opt.device)
             outputs = model(images)
-            loss = criterion(outputs,labels)
+            loss = structure_loss(outputs,labels)
             epoch_loss += loss.item()
             loss.backward()
             optimizer.step()
@@ -51,7 +53,7 @@ if __name__ == '__main__':
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
 
-    model=UNet(in_channels=opt.in_channels,n_classes=opt.n_classes)
+    model=UNet2(in_channels=opt.in_channels,n_classes=opt.n_classes)
     model.cuda()
     model.train()
 

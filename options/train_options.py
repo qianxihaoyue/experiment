@@ -13,5 +13,6 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--test_root_path', type=str, default='./datasets/CVC-300', help="test dataset root")
         self.parser.add_argument('--subdir', type=str, nargs="+", default=["images", "masks"])
         self.parser.add_argument('--checkpoint_save_freq', type=int, default=5, help="checkpoint save frequency")
+        self.parser.add_argument('--seed', type=int, default=1234, help="random seed")
         return self.parser
 
