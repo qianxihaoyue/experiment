@@ -2,8 +2,8 @@ from safetensors import torch
 from utils.metric import calc_dice
 from options.test_options import TestOptions
 from torch.utils.data import DataLoader
-from prepare.commonDataset import CommonDataset
-from models.myunet.unet import Unet
+from utils.commonDataset import CommonDataset
+from models.unet.unet import UNet
 import numpy as np
 from monai.metrics import DiceMetric
 import torch
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     Path(opt.result_path).mkdir(exist_ok=True, parents=True)
 
 
-    model=Unet()
+    model=UNet()
     model.load_state_dict(torch.load(opt.trained_checkpoint))
     model.cuda()
     model.eval()

@@ -3,11 +3,13 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from torchvision import transforms
 import numpy as np
+import random
+
 import argparse
 import os
 import sys
 from utils.tool import *
-from models.myunet.unet import Unet
+from models.unet.unet import UNet
 from options.train_options import TrainOptions
 from utils.commonDataset import  CommonDataset
 from torch.nn import BCEWithLogitsLoss
@@ -41,7 +43,15 @@ if __name__ == '__main__':
     opt.result_path=create_paths(opt.result_path)
     logger=Logger(f"{opt.result_path}/log/train_log.txt").get_logger()
 
-    model=Unet(in_channels=opt.in_channels,n_classes=opt.n_classes)
+    random.seed(opt.seed)
+    np.random.seed(opt.seed)
+    torch.manual_seed(opt.seed)
+    torch.cuda.manual_seed(opt.seed)
+    torch.cuda.manual_seed_all(opt.seed)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+
+    model=UNet(in_channels=opt.in_channels,n_classes=opt.n_classes)
     model.cuda()
     model.train()
 

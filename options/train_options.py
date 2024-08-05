@@ -6,7 +6,7 @@ class TrainOptions(BaseOptions):
         self.initialize()
     def initialize(self):
         self.parser=BaseOptions.initialize(self)
-        self.parser.add_argument('--weight_decay', type=float, default=1e-4)
+        self.parser.add_argument('--weight_decay', type=float, default=0)
         self.parser.add_argument('--epochs', type=int, default=50)
         self.parser.add_argument("--lr", type=float, default=1e-4)
         self.parser.add_argument('--root_path', type=str, default='./datasets/CVC-300', help="dataset root")

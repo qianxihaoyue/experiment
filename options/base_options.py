@@ -4,7 +4,7 @@ class BaseOptions():
         self.parser = argparse.ArgumentParser()
 
         self.parser.add_argument('--image_size', type=int, default=512)
-        self.parser.add_argument('--batch_size', type=int, default=8)
+        self.parser.add_argument('--batch_size', type=int, default=4)
         self.parser.add_argument('--result_path', type=str, default="./result")
         self.parser.add_argument('--experiment_name', type=str, default="exp")
         self.parser.add_argument('--device', type=str, default='cuda')
