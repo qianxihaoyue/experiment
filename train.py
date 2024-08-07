@@ -12,6 +12,7 @@ import sys
 from utils.tool import *
 from models.unet.unet import UNet
 from models.unet2.unet2 import UNet2
+from models.utransformer.utransformer import UTransformer
 from options.train_options import TrainOptions
 from utils.commonDataset import  CommonDataset
 from torch.nn import BCEWithLogitsLoss
@@ -53,7 +54,7 @@ if __name__ == '__main__':
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
 
-    model=UNet2(in_channels=opt.in_channels,n_classes=opt.n_classes)
+    model=UTransformer(in_channels=opt.in_channels,n_classes=opt.n_classes)
     model.cuda()
     model.train()
 
