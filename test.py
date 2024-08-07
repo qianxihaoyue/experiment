@@ -3,7 +3,7 @@ from utils.metric import calc_dice
 from options.test_options import TestOptions
 from torch.utils.data import DataLoader
 from utils.commonDataset import CommonDataset
-from models.unet.unet import UNet
+from models.unet import UNet
 import numpy as np
 from monai.metrics import DiceMetric
 import torch
