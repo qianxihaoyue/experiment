@@ -4,7 +4,7 @@ import  torch.nn.functional as F
 from monai.data.ultrasound_confidence_map import cv2
 import numpy as np
 from options.predict_options import PredictOptions
-from models.unet.unet import  Unet
+from models.unet import  UNet
 import torch
 import cv2
 import datetime
