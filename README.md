@@ -20,13 +20,12 @@
 
 # U-Transformer
 [论文地址:https://arxiv.org/abs/2103.06104#](https://arxiv.org/abs/2103.06104#)<br/>
-在UNet的基础上增加self-attention和cross-attention
-# ResUNet
+在UNet的基础上增加self-attention和cross-attention<br/>
 在UNet的DouConv基础上增加一个残差连接即可<br/>
 [参考博客:https://www.cnblogs.com/alex-bn-lee/p/15224922.html](https://www.cnblogs.com/alex-bn-lee/p/15224922.html)<br/>
 [参考代码：https://github.com/Nishanksingla/UNet-with-ResBlock/blob/master/resnet34_unet_model.py](https://github.com/Nishanksingla/UNet-with-ResBlock/blob/master/resnet34_unet_model.py)<br/>
 [参考代码:https://github.com/alexbnlee/ResUNet](https://github.com/alexbnlee/ResUNet)<br/>
-# TransUNet
+
 
 
 
