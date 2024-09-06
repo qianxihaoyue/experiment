@@ -19,10 +19,13 @@ from utils.commonDataset import  CommonDataset
 from torch.nn import BCEWithLogitsLoss
 from test import test
 from utils.logger import Logger
+import time
 def train(model,opt,train_dataloader,train_dataset,test_dataloader,test_dataset,criterion,optimizer,logger):
     for epoch in range(1,opt.epochs+1):
         epoch_loss = 0
+
         for i, batch in enumerate(train_dataloader):
+            start_time = time.time()
             images=batch['image']
             labels=batch['label']
             optimizer.zero_grad()
@@ -33,7 +36,8 @@ def train(model,opt,train_dataloader,train_dataset,test_dataloader,test_dataset,
             epoch_loss += loss.item()
             loss.backward()
             optimizer.step()
-
+            end_time = time.time()
+            print("time:",end_time-start_time)
         metrics=test(model,opt,test_dataloader,test_dataset)
         logger.info(f"Epoch {epoch}/{opt.epochs}, Loss: {epoch_loss},mdice: {metrics['mdice']}")
         if epoch % opt.checkpoint_save_freq == 0:
@@ -56,7 +60,8 @@ if __name__ == '__main__':
     torch.backends.cudnn.deterministic = True
 
     model=ResUNet(in_channels=opt.in_channels,n_classes=opt.n_classes)
-    model.cuda()
+    opt.device = torch.device("cuda" ,opt.device_ids)
+    model.to(opt.device)
     model.train()
 
     train_dataset=CommonDataset(opt.root_path,opt.subdir,opt.image_size)
